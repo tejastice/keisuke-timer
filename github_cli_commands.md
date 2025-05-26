@@ -39,8 +39,8 @@ gh pr create
 gh repo clone owner/repo
 ```
 
-## 今回のタイマーアプリ用コマンド
+## リポジトリ作成の例
 ```bash
-cd /Users/keisukeohno/Dropbox/xPersonal/project/mp0059_program/20250527_keisuke_sample/timer_app
+# プロジェクトディレクトリに移動してから実行
 gh repo create keisuke-timer --public --source=. --remote=origin --push --description "けいすけと一緒に時間管理！かわいいタイマーアプリ"
 ```

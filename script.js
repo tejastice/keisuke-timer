@@ -7,7 +7,14 @@ let currentImageIndex = 0;
 const keisukeImages = [
     'images/keisuke_happy.png',
     'images/keisuke_thinking.png',
-    'images/keisuke_excited.png'
+    'images/keisuke_excited.png',
+    'images/keisuke_sleepy.png',
+    'images/keisuke_surprised.png',
+    'images/keisuke_confident.png',
+    'images/keisuke_wink.png',
+    'images/keisuke_shy.png',
+    'images/keisuke_determined.png',
+    'images/keisuke_relaxed.png'
 ];
 
 const messages = {
@@ -32,7 +39,7 @@ const hoursDisplay = document.getElementById('hours');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
 const messageDisplay = document.getElementById('message');
-const keisukeImg = document.getElementById('keisuke-img');
+let keisukeImg = document.getElementById('keisuke-img');
 
 function updateDisplay() {
     const hours = Math.floor(timeLeft / 3600);
@@ -43,15 +50,35 @@ function updateDisplay() {
     secondsDisplay.textContent = seconds.toString().padStart(2, '0');
 }
 
-function changeKeisukeImage() {
-    currentImageIndex = (currentImageIndex + 1) % keisukeImages.length;
-    keisukeImg.src = keisukeImages[currentImageIndex];
+function changeKeisukeImage(specificImage = null) {
+    const oldImg = keisukeImg;
+    const newImg = document.createElement('img');
     
-    // アニメーション効果
-    keisukeImg.style.transform = 'scale(0.9)';
+    if (specificImage !== null) {
+        newImg.src = specificImage;
+    } else {
+        currentImageIndex = (currentImageIndex + 1) % keisukeImages.length;
+        newImg.src = keisukeImages[currentImageIndex];
+    }
+    
+    newImg.className = 'fade-out';
+    newImg.alt = 'けいすけ';
+    
+    // 新しい画像を追加
+    keisukeImg.parentElement.appendChild(newImg);
+    
+    // フェードアウト・フェードイン
     setTimeout(() => {
-        keisukeImg.style.transform = 'scale(1)';
-    }, 200);
+        oldImg.className = 'fade-out';
+        newImg.className = 'fade-in';
+        
+        // 古い画像を削除
+        setTimeout(() => {
+            oldImg.remove();
+            newImg.id = 'keisuke-img';
+            keisukeImg = newImg; // 参照を更新
+        }, 500);
+    }, 50);
 }
 
 function updateMessage(type) {
@@ -103,9 +130,9 @@ function startTimer() {
             
             // 残り時間に応じて画像を変更
             if (timeLeft === 30) {
-                keisukeImg.src = keisukeImages[1]; // thinking pose
+                changeKeisukeImage(keisukeImages[1]); // thinking pose
             } else if (timeLeft === 10) {
-                keisukeImg.src = keisukeImages[2]; // excited pose
+                changeKeisukeImage(keisukeImages[2]); // excited pose
             }
         } else if (timeLeft === 0) {
             clearInterval(timer);
@@ -117,7 +144,7 @@ function startTimer() {
             minutesInput.disabled = false;
             secondsInput.disabled = false;
             updateMessage('finished');
-            keisukeImg.src = keisukeImages[2]; // excited pose
+            changeKeisukeImage(keisukeImages[2]); // excited pose
             
             // 完了音を鳴らす（ブラウザが対応している場合）
             playSound();
@@ -131,7 +158,7 @@ function pauseTimer() {
         if (isPaused) {
             pauseBtn.textContent = '再開';
             updateMessage('paused');
-            keisukeImg.src = keisukeImages[1]; // thinking pose
+            changeKeisukeImage(keisukeImages[1]); // thinking pose
         } else {
             pauseBtn.textContent = '一時停止';
             updateMessage('running');
@@ -152,7 +179,7 @@ function resetTimer() {
     minutesInput.disabled = false;
     secondsInput.disabled = false;
     updateMessage('idle');
-    keisukeImg.src = keisukeImages[0]; // happy pose
+    changeKeisukeImage(keisukeImages[0]); // happy pose
     currentImageIndex = 0;
 }
 

@@ -37,6 +37,10 @@ h1 {
 .keisuke-image {
     margin-bottom: 20px;
     animation: float 3s ease-in-out infinite;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
 }
 
 .keisuke-image img {
@@ -44,6 +48,18 @@ h1 {
     height: 200px;
     object-fit: contain;
     filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.keisuke-image img.fade-out {
+    opacity: 0;
+}
+
+.keisuke-image img.fade-in {
+    opacity: 1;
 }
 
 @keyframes float {

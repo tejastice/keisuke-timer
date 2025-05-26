@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>けいすけタイマー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>けいすけタイマー</h1>
+        
+        <div class="timer-container">
+            <div class="keisuke-image">
+                <img id="keisuke-img" src="images/keisuke_happy.png" alt="けいすけ">
+            </div>
+            
+            <div class="timer-display">
+                <span id="minutes">00</span>:<span id="seconds">00</span>
+            </div>
+            
+            <div class="timer-controls">
+                <input type="number" id="timer-input" min="1" max="60" value="5" placeholder="分">
+                <label for="timer-input">分</label>
+            </div>
+            
+            <div class="button-container">
+                <button id="start-btn" class="btn btn-start">スタート</button>
+                <button id="pause-btn" class="btn btn-pause" disabled>一時停止</button>
+                <button id="reset-btn" class="btn btn-reset">リセット</button>
+            </div>
+        </div>
+        
+        <div class="message-container">
+            <p id="message">タイマーを設定してスタートボタンを押してね！</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

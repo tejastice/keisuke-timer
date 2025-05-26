@@ -25,15 +25,20 @@ const messages = {
 const startBtn = document.getElementById('start-btn');
 const pauseBtn = document.getElementById('pause-btn');
 const resetBtn = document.getElementById('reset-btn');
-const timerInput = document.getElementById('timer-input');
+const hoursInput = document.getElementById('hours-input');
+const minutesInput = document.getElementById('minutes-input');
+const secondsInput = document.getElementById('seconds-input');
+const hoursDisplay = document.getElementById('hours');
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
 const messageDisplay = document.getElementById('message');
 const keisukeImg = document.getElementById('keisuke-img');
 
 function updateDisplay() {
-    const minutes = Math.floor(timeLeft / 60);
+    const hours = Math.floor(timeLeft / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
     const seconds = timeLeft % 60;
+    hoursDisplay.textContent = hours.toString().padStart(2, '0');
     minutesDisplay.textContent = minutes.toString().padStart(2, '0');
     secondsDisplay.textContent = seconds.toString().padStart(2, '0');
 }
@@ -60,8 +65,16 @@ function updateMessage(type) {
 
 function startTimer() {
     if (!isRunning && !isPaused) {
-        const minutes = parseInt(timerInput.value) || 5;
-        timeLeft = minutes * 60;
+        const hours = parseInt(hoursInput.value) || 0;
+        const minutes = parseInt(minutesInput.value) || 0;
+        const seconds = parseInt(secondsInput.value) || 0;
+        timeLeft = hours * 3600 + minutes * 60 + seconds;
+        
+        // 入力が0の場合はデフォルトで5分
+        if (timeLeft === 0) {
+            timeLeft = 300; // 5分
+        }
+        
         updateDisplay();
     }
     
@@ -69,7 +82,9 @@ function startTimer() {
     isPaused = false;
     startBtn.disabled = true;
     pauseBtn.disabled = false;
-    timerInput.disabled = true;
+    hoursInput.disabled = true;
+    minutesInput.disabled = true;
+    secondsInput.disabled = true;
     
     updateMessage('running');
     
@@ -98,7 +113,9 @@ function startTimer() {
             isRunning = false;
             startBtn.disabled = false;
             pauseBtn.disabled = true;
-            timerInput.disabled = false;
+            hoursInput.disabled = false;
+            minutesInput.disabled = false;
+            secondsInput.disabled = false;
             updateMessage('finished');
             keisukeImg.src = keisukeImages[2]; // excited pose
             
@@ -131,7 +148,9 @@ function resetTimer() {
     startBtn.disabled = false;
     pauseBtn.disabled = true;
     pauseBtn.textContent = '一時停止';
-    timerInput.disabled = false;
+    hoursInput.disabled = false;
+    minutesInput.disabled = false;
+    secondsInput.disabled = false;
     updateMessage('idle');
     keisukeImg.src = keisukeImages[0]; // happy pose
     currentImageIndex = 0;
